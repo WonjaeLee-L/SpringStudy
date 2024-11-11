@@ -7,10 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- sqlsessionfactory가 가지고있는 쿼리문 -->
 
 	<!-- parameterType은 쿼리문의 ? 부분의 정보 -->
-	
+
 	<!-- id는 내가 지정, DaoImpl에서 원하는 쿼리를 선택할 때, 이용한다. -->
 	<insert id="insertOne" parameterType="www.silver.vo.MemberVO">
-		insert into kmember values (#{id},#{pass},#{tel},#{email})
+		insert into kmember values
+		(#{id},#{pass},#{tel},#{email})
 	</insert>
 </mapper>
 

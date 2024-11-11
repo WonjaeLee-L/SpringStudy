@@ -1,7 +1,7 @@
 package www.silver.vo;
 
 public class MemberVO {
-	// Mybatis 이용시, html의 name이름과 vo의 변수명과 데이터베이스 컬럼은
+	// Mybatis 이용시, html(클라이언트, view, jsp)의 name이름과 vo의 변수명과 데이터베이스 컬럼은
 	// 일치해야 자동으로 매핑된다. getter,setter까지 하면 vo 준비 완료.
 	String id = null;
 	String pass = null;

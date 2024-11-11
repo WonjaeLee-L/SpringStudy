@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/** aaa
- * Handles requests for the application home page.
+/**
+ * aaa Handles requests for the application home page.
  */
-@Controller	// 컨트롤러임을 알려줌
+@Controller // 컨트롤러임을 알려줌
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -32,39 +32,36 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate );
+		model.addAttribute("serverTime", formattedDate);
 		// 응답하는 템플릿
 		return "home";
 	}
-	
-	
 
-	//https://bubblecastle.tistory.com/9
-	
+	// https://bubblecastle.tistory.com/9
+
 	@RequestMapping(value = "timeline", method = RequestMethod.GET)
 	public String timeline() {
 		return "timeline";
 	}
-	
+
 	@RequestMapping(value = "viewMessage", method = RequestMethod.POST)
-	public String viewMessage(@RequestParam("time") String t, 
-			@RequestParam("name") String n, Model m) {
-				// 똑같이 메서드명만 바꾸고 method 방식을 바꾸어 세팅해 놓는다.
+	public String viewMessage(@RequestParam("time") String t, @RequestParam("name") String n, Model m) {
+		// 똑같이 메서드명만 바꾸고 method 방식을 바꾸어 세팅해 놓는다.
 		m.addAttribute("변수명", "값");
 		m.addAttribute("time", t);
 		m.addAttribute("name", n);
 		m.addAttribute("age", 100);
 		return "viewMsg";
 	}
+
 	@RequestMapping(value = "viewMessage", method = RequestMethod.GET)
-	public String viewMessage1(@RequestParam("time") String t, 
-			@RequestParam("name") String n, Model m) {
+	public String viewMessage1(@RequestParam("time") String t, @RequestParam("name") String n, Model m) {
 		// view에게 값을 넘겨줄 때, 사용되는 객체 Model m, 직접 만들지 않아도 자동으로 만들어 준다.
 		// 얘를 적지 않으면 아래처럼 객체를 따로 만들어서 사용할 수 있다.
-		
+
 		// model 역할과 view 역할을 다 할 수 있는 객체. 직접 만드는 객체
 //		ModelAndView mm = new ModelAndView();
-		
+
 		// 디버깅 - 확인용
 //		System.out.println(t+"/"+n);
 		m.addAttribute("변수명", "값");
@@ -77,5 +74,5 @@ public class HomeController {
 		// 여기까지가 view가 변수를 받은 상태. 이제 출력을 하도록 viewMsg로 간다.
 		return "viewMsg";
 	}
-	
+
 }
