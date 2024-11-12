@@ -1,8 +1,11 @@
 package www.silver.hom;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +20,17 @@ public class BoardController {
 	IF_BoardService boardservice;
 
 	@GetMapping(value = "board")
-	public String board() throws Exception {
+	// model을 쓴다 > 뷰에게 값을 넘기는구나
+	// controller인데 string이므로 뷰가 string이구나
+	public String board(Model model) throws Exception {
 		// controller > service > dao > mapper
-		// 전체 게시글을 가져오는 작업이 필요
+		// 서비스 layer에 전체글 서비스를 요청하고 결과를 리턴
+		List<BoardVO> list = boardservice.boardList();
+		// 리턴받은 list변수의 값을 모델 객체로 뷰에게 전송하는 코드(view에게 값을 넘기기 위해 model 객체 필요)
+
+		model.addAttribute("list", list);
+		// 변수 "list"를 넘긴다. "list"의 값은 list이다.
+		// 뷰를 지정
 		return "board/bbs";
 	}
 
@@ -33,6 +44,11 @@ public class BoardController {
 	@PostMapping(value = "bwrdo")
 	public String bwrdo(@ModelAttribute BoardVO boardvo) throws Exception {
 		boardservice.addBoard(boardvo);
-		return "board/bbs";
+//		return "board/bbs";
+		// view로 가면 방금 입력한 값이 나오지 않는다.
+		// model 객체로 받지 않아서 안된다.
+		return "redirect:board";
+		// view가 아니라 board로 돌아가는 것을 입력.
+		// 방금 등록한 글을 바로 볼 수 있다.
 	}
 }

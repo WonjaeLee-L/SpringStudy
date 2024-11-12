@@ -1,5 +1,7 @@
 package www.silver.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -28,6 +30,24 @@ public class BoardServiceImpl implements IF_BoardService {
 		}
 		// dao에 넘겨서 mapper를 통해 DB insert
 		boarddao.insertBoard(boardvo);
+	}
+
+	@Override
+	public List<BoardVO> boardList() throws Exception {
+		// 처리하다가 DB작업 필요
+//		return boarddao.selectAll();
+		// return은 controller에, controller는 model객체로 view에
+
+		// 날짜를 뒤에 자르고 년월일까지만 출력 >> 서비스단에서 처리하거나 view에서 처리
+		// 서비스에서 처리하면 서버에 부담. view에서 처리하면 view에서 부담
+		// 서비스단 보다는 view에서 처리한다. jstl문법을 이용하여 view에서 처리.
+		// 서비스에서 날짜 자르기
+		List<BoardVO> list = boarddao.selectAll();
+		for (BoardVO b : list) {
+			String date = b.getIndate();
+			b.setIndate(date.substring(0, 10));
+		}
+		return list;
 	}
 
 }
