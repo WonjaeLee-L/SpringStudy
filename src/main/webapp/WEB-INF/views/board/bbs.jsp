@@ -457,7 +457,7 @@ li {
 								<td>${boardvo.title}</td>
 								<td>${boardvo.viewmember}</td>
 								<td>${boardvo.indate}</td>
-								<td>수정/삭제</td>
+								<td>수정/<a href="del?delno=${boardvo.title}">삭제</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

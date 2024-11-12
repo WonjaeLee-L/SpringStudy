@@ -10,4 +10,6 @@ public interface IF_BoardDao {
 	public void insertBoard(BoardVO boardvo) throws Exception;
 
 	public List<BoardVO> selectAll() throws Exception;
+	
+	public void deleteBoard(String delno) throws Exception;
 }

@@ -50,4 +50,10 @@ public class BoardServiceImpl implements IF_BoardService {
 		return list;
 	}
 
+	@Override
+	public void deleteBoard(String delno) throws Exception {
+		boarddao.deleteBoard(delno);
+		
+	}
+
 }

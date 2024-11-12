@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import www.silver.service.IF_BoardService;
 import www.silver.vo.BoardVO;
@@ -51,4 +52,12 @@ public class BoardController {
 		// view가 아니라 board로 돌아가는 것을 입력.
 		// 방금 등록한 글을 바로 볼 수 있다.
 	}
+
+	// 삭제
+	@GetMapping(value = "del")
+	public String del(@RequestParam("delno") String delno) throws Exception {
+		boardservice.deleteBoard(delno);
+		return "redirect:board";
+	}
+
 }
