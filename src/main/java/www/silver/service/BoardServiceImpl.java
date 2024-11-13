@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import www.silver.dao.IF_BoardDao;
 import www.silver.vo.BoardVO;
+import www.silver.vo.PageVO;
 
 @Service
 public class BoardServiceImpl implements IF_BoardService {
@@ -33,7 +34,7 @@ public class BoardServiceImpl implements IF_BoardService {
 	}
 
 	@Override
-	public List<BoardVO> boardList() throws Exception {
+	public List<BoardVO> boardList(PageVO pagevo) throws Exception {
 		// 처리하다가 DB작업 필요
 //		return boarddao.selectAll();
 		// return은 controller에, controller는 model객체로 view에
@@ -42,7 +43,7 @@ public class BoardServiceImpl implements IF_BoardService {
 		// 서비스에서 처리하면 서버에 부담. view에서 처리하면 view에서 부담
 		// 서비스단 보다는 view에서 처리한다. jstl문법을 이용하여 view에서 처리.
 		// 서비스에서 날짜 자르기
-		List<BoardVO> list = boarddao.selectAll();
+		List<BoardVO> list = boarddao.selectAll(pagevo);
 		for (BoardVO b : list) {
 			String date = b.getIndate();
 			b.setIndate(date.substring(0, 10));
@@ -54,6 +55,29 @@ public class BoardServiceImpl implements IF_BoardService {
 	public void deleteBoard(String delno) throws Exception {
 		boarddao.deleteBoard(delno);
 		
+	}
+
+	@Override
+	public BoardVO modBoard(String modno) throws Exception {
+		
+		return boarddao.selectOne(modno);
+	}
+
+	@Override
+	public void modBoard(BoardVO boardvo) throws Exception {
+		if (boardvo.getViewmember() != null) {
+			boardvo.setViewmember("공개");
+		} else {
+			boardvo.setViewmember("비공개");
+		}
+		boarddao.updateBoard(boardvo);
+		
+	}
+
+	@Override
+	public int totalCountBoard() throws Exception {
+		// TODO Auto-generated method stub
+		return boarddao.cntBoard();
 	}
 
 }

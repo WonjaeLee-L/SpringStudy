@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- sqlsessionfactory가 가지고있는 쿼리문 -->
 	<!-- parameterType은 쿼리문의 ? 부분의 정보 -->
 	<!-- dao와 매핑은 namespace, id, parameterType을 맞춘다. -->
-	<!-- parameterType = dao가 넘겨준 객체의 타입 -->
+	<!-- parameterType = dao가 넘겨준 객체의 타입(생략가능) -->
 	<!-- id는 임의 지정(식별자역할) -->
 	<insert id="inin" parameterType="www.silver.vo.BoardVO">
 		insert into kboard values
@@ -16,12 +16,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectall" resultType="www.silver.vo.BoardVO">
-		select * from kboard
+		<!-- select * from kboard -->
+		select t.* from (select sub.*, rownum as rnum from (select * from
+		kboard order by indate DESC) sub) t
+		where rnum between #{startNo} and
+		#{endNo}
 	</select>
 
+	<select id="selectTitle" parameterType="String"
+		resultType="www.silver.vo.BoardVO">
+		select * from kboard where title = #{title}
+	</select>
 	<delete id="delone" parameterType="String">
 		delete from kboard where
 		title=#{delno}
 	</delete>
+	<update id="update" parameterType="www.silver.vo.BoardVO">
+		update kboard set
+		type=#{type}, pass=#{pass}, content=#{content},
+		username=#{username},
+		viewmember=#{viewmember} where title=#{title}
+	</update>
+	
+	<select id="allcnt" resultType="int">
+		select count(*) from kboard
+	</select>
 </mapper>
 
