@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import www.silver.service.IF_BoardService;
+import www.silver.util.FileDataUtil;
 import www.silver.vo.BoardVO;
 import www.silver.vo.PageVO;
 
@@ -20,6 +22,9 @@ public class BoardController {
 
 	@Inject
 	IF_BoardService boardservice;
+	
+	@Inject
+	FileDataUtil filedatautil;
 
 	@GetMapping(value = "board")
 	// model을 쓴다 > 뷰에게 값을 넘기는구나
@@ -64,7 +69,22 @@ public class BoardController {
 //		System.out.println(boardvo.toString());
 	// client에게 받은 data를 boardservice에 넘긴다.
 	@PostMapping(value = "bwrdo")
-	public String bwrdo(@ModelAttribute BoardVO boardvo) throws Exception {
+	public String bwrdo(@ModelAttribute BoardVO boardvo, MultipartFile[] file) throws Exception {
+		
+		// 업로드 되는지 확인하는 중간 코드
+//		System.out.println(file.length);
+//		for(int i=0;i<file.length;i++) {
+			// file[i].get 해서 이거저거 다 뜯어보기
+			// 실제 파일 이름 >> getOriginalFilename()
+//			System.out.println(file[i].getOriginalFilename());
+//		}
+		
+		
+		String[] newFileName = filedatautil.fileUpload(file);
+//		System.out.println(newFileName);
+		
+		boardvo.setFilename(newFileName);
+		// 얘를 건드리면 뒤에 다 수정해야함, vo에 변수를 추가해서 리턴받은 파일명도 함께 보낼 수 있도록 한다.(위와 같이 setFilename을 한다)
 		boardservice.addBoard(boardvo);
 //		return "board/bbs";
 		// view로 가면 방금 입력한 값이 나오지 않는다.
@@ -106,6 +126,20 @@ public class BoardController {
 		model.addAttribute("boardvo", bvo);
 		return "board/modform";
 		// view이름에 .jsp를 붙이지 않아도 뷰리졸브가 붙여준다.
+	}
+	
+	@GetMapping(value="view")
+	public String boardView(@RequestParam("no") String no, Model model) throws Exception {
+		BoardVO boardvo = boardservice.getBoard(no);
+		
+		// attach 가져오기
+		List<String> attachList = boardservice.getAttach(no);
+		// view에게 전송한 값들. 게시글과 첨부파일 리스트
+		model.addAttribute("boardvo", boardvo);
+		model.addAttribute("attachList", attachList);
+		
+		
+		return "board/dview";
 	}
 
 }

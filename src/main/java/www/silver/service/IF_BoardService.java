@@ -21,4 +21,8 @@ public interface IF_BoardService {
 	//(메서드 오버로딩)
 	
 	public int totalCountBoard() throws Exception;
+	
+	public BoardVO getBoard(String no) throws Exception;
+	
+	public List<String> getAttach(String no) throws Exception;
 }

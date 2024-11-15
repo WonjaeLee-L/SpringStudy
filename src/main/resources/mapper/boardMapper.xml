@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- id는 임의 지정(식별자역할) -->
 	<insert id="inin" parameterType="www.silver.vo.BoardVO">
 		insert into kboard values
-		(#{type},#{username},#{pass},#{title},#{content},#{viewmember},sysdate)
+		(#{type},#{username},#{pass},#{title},#{content},#{viewmember},sysdate,kboard_seq.nextval)
 	</insert>
 
 	<select id="selectall" resultType="www.silver.vo.BoardVO">
@@ -25,21 +25,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectTitle" parameterType="String"
 		resultType="www.silver.vo.BoardVO">
-		select * from kboard where title = #{title}
+		select * from kboard where num = #{title}
 	</select>
 	<delete id="delone" parameterType="String">
 		delete from kboard where
-		title=#{delno}
+		num=#{delno}
 	</delete>
+	<!-- dao가 넘겨줌 boardvo로 그래서 걔의 변수명 #{num} -->
 	<update id="update" parameterType="www.silver.vo.BoardVO">
 		update kboard set
 		type=#{type}, pass=#{pass}, content=#{content},
 		username=#{username},
-		viewmember=#{viewmember} where title=#{title}
+		viewmember=#{viewmember} where num=#{num}
 	</update>
 	
 	<select id="allcnt" resultType="int">
 		select count(*) from kboard
+	</select>
+	
+	<insert id="insertattach">
+		insert into kboard_attach values(
+		(select max(num)from kboard),#{fname},default)
+		<!-- 방금 들어간 번호의 최근 번호를가져와라 -->	
+	</insert>
+	
+	<select id="selectattach" resultType="String">
+		select filename from kboard_attach where num = #{no}
 	</select>
 </mapper>
 

@@ -19,4 +19,8 @@ public interface IF_BoardDao {
 	public void updateBoard(BoardVO boardvo) throws Exception;
 	
 	public int cntBoard() throws Exception;
+	
+	public void insertAttach(String fname) throws Exception;
+	
+	public List<String> selectAllAttach(String no) throws Exception;
 }

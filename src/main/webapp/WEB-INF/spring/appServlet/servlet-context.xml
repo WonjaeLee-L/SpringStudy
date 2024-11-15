@@ -21,8 +21,21 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="www.silver.hom" />
+	<!-- 첨부파일 빈설정. property: 용량제한을 속성으로 걸어 놨음 -->
+	<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id ="multipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"></beans:property> <!--  10메가 제한 설정-->	
+	</beans:bean>
+	<!-- 이때, 파일명이 중복될 경우 중복된 파일이 없어지거나, 유니크하지 않아서 찾기가 힘들다. sequency or random 숫자를 뽑아서 파일명을 만든다. -->
 	
+	<!-- uploadPaht의 bean설정 -->
+	<!-- String 객체를 만들어달라 이름은 id이다. 생성자에 value를 위치로 설정한다. -->
+	<beans:bean class="java.lang.String" id="uploadPath">
+	<!--  생성자 -->
+		<beans:constructor-arg value="c:\\tmp"></beans:constructor-arg>
+	</beans:bean>
+	
+	<context:component-scan base-package="www.silver.hom" />
+	<context:component-scan base-package="www.silver.util" />
 	
 	
 </beans:beans>

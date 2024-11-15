@@ -487,6 +487,8 @@ li {
 					</div>
 				</div>
 				<div class="col-12">
+				<!--  hidden은 화면에는 안보이지만, 변수를 만들고 값은  value -->
+				<input type="hidden" name="num" value="${boardvo.num }">
 					<button type="submit" class="btn btn-primary">수정하기</button>
 					<!-- submit 타입은 form tag의 action으로 지정된 곳으로 이동 -->
 				</div>

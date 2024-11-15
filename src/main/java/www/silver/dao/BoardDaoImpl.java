@@ -58,4 +58,16 @@ public class BoardDaoImpl implements IF_BoardDao {
 		return sqlsession.selectOne(mapperQuery+".allcnt");
 	}
 
+	@Override
+	public void insertAttach(String fname) throws Exception {
+		// TODO Auto-generated method stub
+		sqlsession.insert(mapperQuery+".insertattach",fname);
+	}
+
+	@Override
+	public List<String> selectAllAttach(String no) throws Exception {
+
+		return sqlsession.selectList(mapperQuery+".selectattach",no);
+	}
+
 }
